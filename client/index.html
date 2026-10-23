@@ -38,7 +38,12 @@
       saida.innerText = 'Disparando requisição...';
       saida.classList.remove('erro');
 
-      fetch(API_URL)
+      fetch(API_URL, {
+        method: 'GET',
+        headers: {
+          'X-Identificador-Estudante': '2026107781'
+        }
+      })
         .then(res => {
           if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
           return res.json();
