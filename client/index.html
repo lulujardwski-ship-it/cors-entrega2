@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prática CORS - Laboratório</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; background: #f4f6f8; }
+    .card { background: #fff; padding: 1.5rem; border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; }
+    button { padding: 10px 16px; background: #0066cc; color: #fff;
+      border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+    button:hover { background: #004c99; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 1rem;
+      border-radius: 4px; overflow-x: auto; white-space: pre-wrap; }
+    .erro { color: #d93025; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Painel do Cliente (Frontend)</h2>
+    <p>Origem do Cliente: <strong id="origem-atual">Detectando...</strong></p>
+    <button id="btn-requisicao">Executar Requisição</button>
+    <h3>Resultado:</h3>
+    <pre id="saida">Nenhuma requisição disparada ainda.</pre>
+  </div>
+  <script>
+    document.getElementById('origem-atual').innerText = window.location.origin;
+
+    // Na nuvem, a URL publica da porta 8080 do MESMO Codespace.
+    // Localmente, a API responde em http://localhost:8080/dados.
+    const API_URL = window.location.hostname.endsWith('.app.github.dev')
+      ? window.location.origin.replace(/-3000\.app\.github\.dev$/, '-8080.app.github.dev') + '/dados'
+      : 'http://localhost:8080/dados';
+
+    document.getElementById('btn-requisicao').addEventListener('click', () => {
+      const saida = document.getElementById('saida');
+      saida.innerText = 'Disparando requisição...';
+      saida.classList.remove('erro');
+
+      fetch(API_URL)
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+          return res.json();
+        })
+        .then(dados => {
+          saida.innerText = JSON.stringify(dados, null, 2);
+        })
+        .catch(err => {
+          saida.classList.add('erro');
+          saida.innerText = 'Falha na requisição (CORS ou Conexão):\n' + err.message;
+        });
+    });
+  </script>
+</body>
+</html>
