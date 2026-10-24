@@ -1,0 +1,14 @@
+ENGENHARIA DE SOFTWARE - CORS - ENTREGA 3
+Matrícula: 2026107781
+
+Questão A - Fronteira de Bloqueio e Efeitos Colaterais
+CORS/SOP restringe a leitura de respostas por scripts de outras origens, mas não impede
+necessariamente que a requisição seja recebida e processada pelo servidor.
+Uma requisição simples pode alterar dados antes de o navegador bloquear a resposta.
+Por isso, o servidor precisa autenticar e autorizar ações e usar proteções contra CSRF.
+
+Questão B - Razão de Existência Histórica do Preflight (OPTIONS)
+Formulários HTML clássicos já podiam enviar GET e POST simples antes da criação do CORS;
+exigir preflight para essas chamadas prejudicaria a compatibilidade com servidores legados.
+Métodos como DELETE/PUT e cabeçalhos personalizados ampliam o que um site pode enviar;
+o OPTIONS confirma a autorização antes de liberar essas novas requisições entre origens.
